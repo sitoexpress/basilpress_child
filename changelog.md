@@ -2,6 +2,10 @@
 This changelog will still be used to keep track of changes, as the github repo won't necessarily follow our internal release history.
 * Current release: 0.6.0
 
+## v.0.6.1
+* scripts.js:     content_margin now applies integer margin + 0px when no-content-margin class is found
+* scripts.js:     commented some console.log from content_margin
+
 ## v.0.6.0
 * style.css:      style complies with Basil Advanced Menu (BAM) .bam-active class
 * bp_nav:         lock_body is now applied to html as sauce lib already does

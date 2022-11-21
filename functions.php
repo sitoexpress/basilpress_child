@@ -6,7 +6,7 @@
  * Only edit this file if you have direct access to it on your server (to fix errors if they happen).
  */
 
-define('BP_VER', 'v.0.6.0');
+define('BP_VER', 'v.0.6.1');
 define('BP_PANEL_MARGIN_DIVIDER', 2);
 define('BP_PANEL_MARGIN_FALLBACK', 45);
 define('BP_ADVANCED_MENU', 0);

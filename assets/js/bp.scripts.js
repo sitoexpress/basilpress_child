@@ -188,10 +188,10 @@ function content_margin() {
 		|| ($('.nav-is-fixed').length && $('.no-content-margin').length)
 		|| (!$('.nav-is-fixed').length)
 		|| ($('.header-on-left').length && viewport.w > 768)) {
-			$('#page').css('margin-top', '')
+			$('#page').css('margin-top', '0px')
 			return
 		}
-		margin = $('.header-nav-wrap').outerHeight()
+		margin = parseInt($('.header-nav-wrap').outerHeight())
 		$('#page').css('margin-top', margin + 'px')
 	}
 
@@ -259,6 +259,7 @@ function content_height() {
 
 		if(site_h <= viewport.h) {
 			content_h = viewport.h - header_h - footer_h
+
 			/**
 			console.log('site_h', site_h)
 			console.log('header_h ', header_h)
@@ -266,6 +267,7 @@ function content_height() {
 			console.log('viewport_height ', viewport.h)
 			console.log('content_h ', content_h)
 			**/
+
 			$('.site-content').addClass('flex-vertical-align')
 
 			!sidebar_check() && $('.site-content').css('height', content_h + 'px')
@@ -287,7 +289,7 @@ function content_height() {
 
 		}
 
-		console.log('work_same_width')
+		// console.log('work_same_width')
 
 	}
 
@@ -310,7 +312,7 @@ function content_height() {
 
 		}
 
-		console.log('work_diff_width')
+		// console.log('work_diff_width')
 
 	}
 
@@ -321,7 +323,7 @@ function content_height() {
 		primary_h = $('#primary').outerHeight(true, true)
 
 		if(primary_h > content_h && content_h !== 0) {
-			console.log('double_check reset')
+			// console.log('double_check reset')
 			content_h = 0
 			reset()
 		}
