@@ -16,6 +16,10 @@ class bp_view {
 		add_filter('generate_navigation_search_output', array($this, 'bp_nav_search'), 1, 100);
 		add_filter('generate_header_items_order', array($this, 'bp_remove_header_area'), 10, 1);
 
+		/* Custom Colors in Wp Colorpickers */
+		add_action('admin_print_footer_scripts', array($this, 'color_pickers_default'));
+		add_action('customize_controls_print_footer_scripts', array($this, 'color_pickers_default'));
+
 		/* Wp PageNavi Integration */
 		add_action('wp', array($this, 'remove_gp_nav'));
 		add_action('generate_after_loop', array($this, 'pagenavi_integration'), 20);
@@ -267,6 +271,38 @@ class bp_view {
 		return $panels_data;
 
 	}
+
+	/*
+	* Color Pickers Default
+	*/
+
+	public function color_pickers_default() {
+
+	  $options = bp()->options;
+	  $mandatory = array('#FFFFFF', '#000000');
+
+	  // Adding GP theme defined colors to a simple array
+	  if(isset($options['global_colors']) && !empty($options['global_colors'])) {
+	    foreach($options['global_colors'] as $data) {
+	      $colors[] = $data['color'];
+	    }
+	  }
+
+	  // Adding mandatory colors (B&W) if not set by theme
+	  foreach($mandatory as $color) {
+	    if(!in_array($color, $colors)) $colors[] = $color;
+	  }
+
+	  // Printing stuff in WP Admin (it's just wp-admin right?)
+	  ?>
+	  <script>
+	  jQuery(document).ready(function($) {
+	    $.wp.wpColorPicker.prototype.options = {
+	      palettes: <?php echo json_encode($colors); ?>
+	    };
+	  });
+	</script>
+	<?php }
 
 	/**
 	 * Pagenavi Integration

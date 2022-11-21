@@ -29,22 +29,6 @@ function bp_after_setup_theme() {
 }
 add_action( 'after_setup_theme', 'bp_after_setup_theme' );
 
-add_filter('advanced-ads-placement-types', 'tag24_ad_placements');
-function tag24_ad_placements($placements) {
-  $placements['my-placement'] = array(
-    'title'       => __( 'My Placement', 'advanced-ads' ),
-    'description' => __( 'This is a custom placement.', 'advanced-ads' ),
-    'image'       => ADVADS_BASE_URL . 'admin/assets/img/placements/footer.png',
-    'order'       => 95,
-    'options'     => array(
-      'show_position'  => true,
-      'show_lazy_load' => true,
-      'amp'            => true,
-    ),
-  );
-  return $placements;
-}
-
 /*
 * Fonts Stuff you may need to disable
 
