@@ -1,6 +1,83 @@
 # BasilPress Changelog
 This changelog will still be used to keep track of changes, as the github repo won't necessarily follow our internal release history.
-* Current release: 0.6.1
+* Current release: 1.2.0
+
+## v.1.2.0
+* misc:             many files renamed for easier maintenance / customization
+* wc.js:            fixed vat_toggle not working as expected
+* wc.css:           fixed basic woocommerce grid
+* checkout:         user first and last name fallback to billing name if none present in WC_Customer object
+* checkout:         fixed edit button not translatable
+* checkout, cart:   hides shipping methods when free shipping is available
+* view:             custom_panels_data rework to assure compatibility with SO PB 2.29.4
+* view:             fixed woocommerce-top-widget-area not showing
+* view:             added bp_sidebar_override filter && max-width wrapper now shows up on is_singular() if there's a sidebar
+* view:             fix to cqoc 3.x compatibility
+* view:             fix to GP quirks on page header when title is not visible
+* view:             added customization to wc order emails
+* view:             variable product now open a popup much cool very wow
+* view:             reorder and refactoring of the file structure
+* view:             added privacy policy checkboxes for user registration and checkout forms
+* view:             variable product price label as "Starting from..."
+* wc.css:           better styling for notices checkout
+* wc.css:           general improvements over mobile layout consistency and responsiveness for cart, checkout and WPC Fly Cart css
+* controller:       added is_yith_catalog_enabled() method to check if it's enabled for current use case
+* controller:       added s2s_row setting for SO PB panel style in order to create side-to-side stretched rows
+
+## v.1.0.0
+* functions:        BP_WP_LOGIN_BG constant sets wp-login background
+* functions:        bp_is_archive() function allow to detect more easily a wordpress archive and is customizable via the bp_is_archive filter -> moved to sauce, callable as sl_()->is_archive()
+* bp.view:          is-archive class applied to body when sl_()->is_archive() is true
+* bp.view:          added support to Woo Fly Cart (WPC) adding vat in fly cart
+* bp.view:          added Fattura Elettronica fields in order e-mail
+* Removed useless/unused image sizes
+* SiteOrigin fullwidth rows now work fine using CSS method out of the box
+* General improvements in BasilPress CSS to provide a consistent appearence out of the box
+ * header-widget and footer-area now behave consistently and are Layout Builder dependant for background and internal padding settings
+ * pages, posts, archives and likely any cpt or ctx will display consistently
+* General improvements in WooCommerce CSS to provide a consistent appearence out of the box
+ * huge improvements in default myaccount, cart & checkout pages
+ * huge improvements in table styles
+ * fully integrated with Change Quantity on Checkout for WooCommerce plugin
+ * added generic svg icon for account: just add my-account class to a menu item
+ * added generic svg icon to WPC Fly Cart
+ * renamed bp.woocommerce.css to wc.base.css
+ * added wc.custom.css
+ * removed woocommerce-layout & woocommerce-smallscreen css loaded by WC
+ * enhancements in buy-button UI/UX for simple products purchase
+ * added 'woocommerce-block-theme-has-button-styles' to provide consistent behaviour, as BasilPress customizes these things via plain and simple css in style.custom.css
+* General colors are now defined by css vars which follows Bootstrap naming convention. There can be customized in the GP's customizer.
+  * --white
+  * --light
+  * --dark
+  * --primary, --secondary
+  * --accent-1, --accent-2, --accent-3
+  * --warning, --info, --success, --danger
+
+
+## v.0.6.3
+admin.style:      added rule to prevent right sidebar in post edit show hz scroll for whatever stupid reason
+bp.controller:    added central_logo mode in customizer which allows setting a central logo in the header,
+                  enabling left & right logo sidebars
+                  added _basil-no-content-margin meta as GP layout post option to control content margin via CSS (.no-content-magin-css class applied to body)
+bp.view:          no-content-magin-css class is applied to body if _basil-no-content-margin post meta is set
+                  color_pickers_default ACF compat
+                  central logo compat
+                  added check for $panels_data['grids']
+style.css:        added .no-content-margin-css rule
+                  central logo compat
+scripts.js:       central logo compat
+style.custom:     added SiteOrigin CSS FullWidth rules to make 100% stretched rows work with via CSS which is better, still testing the PHP counterpart
+                  central logo compat
+                  added buttons markup to target Sauce Lib button-menu class so that all buttons will look the same
+functions:        added commented out functions to conveniently add custom/cdn fonts without always copypasting the same stuff
+assets:           added fonts folder & empty fonts.css stylesheet for any @font-face we might need
+
+
+## v.0.6.2
+bp.view:          fixed php notice showing up if no global colors are set in GP options
+bp.view:          fixed unwanted padding calculation for padding & margin max-width VS container max-width in GP
+all:              mobile breakpoint is now 810px to match ipad vertical breakpoint
 
 ## v.0.6.1
 * scripts.js:     content_margin now applies integer margin + 0px when no-content-margin class is found

@@ -1,0 +1,286 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2024-02-14 15:13+0100\n"
+"PO-Revision-Date: 2024-02-14 15:14+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;sprintf;esc_attr__\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: classes/bp.controller.class.php:224
+msgid "Big 800x480"
+msgstr "Grande 800x480"
+
+#: classes/bp.controller.class.php:225
+msgid "Medium 640x360"
+msgstr "Media 640x360"
+
+#: classes/bp.controller.class.php:226
+msgid "Medium Thin 640x240"
+msgstr "Media Sottile 640x240"
+
+#: classes/bp.controller.class.php:227
+msgid "Square Crop 480x480"
+msgstr "Ritaglio Quadrato 480x480"
+
+#: classes/bp.controller.class.php:396
+msgid "Fixed Header & Navigation (BP)"
+msgstr "Header e navigazione fissi (BP)"
+
+#: classes/bp.controller.class.php:399 classes/bp.controller.class.php:414
+#: classes/bp.controller.class.php:429 classes/bp.controller.class.php:444
+msgid "Disabled"
+msgstr "Disabilitato"
+
+#: classes/bp.controller.class.php:400 classes/bp.controller.class.php:415
+#: classes/bp.controller.class.php:430 classes/bp.controller.class.php:445
+msgid "Enabled"
+msgstr "Abilitato"
+
+#: classes/bp.controller.class.php:411
+msgid "Left Header & Navigation (BP)"
+msgstr "Header e navigazione a sinistra (BP)"
+
+#: classes/bp.controller.class.php:426
+msgid "Page Header Global Setting (BP)"
+msgstr "Heade di pagina - Impostazione globale (BP)"
+
+#: classes/bp.controller.class.php:441
+msgid "Central Logo (BP)"
+msgstr "Logo Centrale (BP)"
+
+#: classes/bp.view.class.php:306
+msgid "Back to shop"
+msgstr "Torna allo shop"
+
+#: classes/bp.view.class.php:335
+#, php-format
+msgid ""
+"Your personal data will be used to create an account, manage the login and "
+"support your experience throughout this website, and for other purposes "
+"described in our %s according to you preferences."
+msgstr ""
+"Sono consapevole ed accetto che i miei dati verranno usati per creare un "
+"account, gestire il login, supportare l'esperienza utente su questo sito web "
+"e per gli altri scopi descritti nella %s in modo concorde alle mie "
+"preferenze."
+
+#: classes/bp.view.class.php:353
+msgid "Please accept our privacy policy to create your account!"
+msgstr "Devi accettare la privacy policy per creare un account!"
+
+#: classes/bp.view.class.php:402 classes/bp.view.class.php:428
+msgid "Invoice Data"
+msgstr "Dati fattura"
+
+#: classes/bp.view.class.php:405
+msgid "Company Name:"
+msgstr "Ragione Sociale:"
+
+#: classes/bp.view.class.php:406
+msgid "Fiscal Code / Vat No.:"
+msgstr "CF / P.IVA:"
+
+#: classes/bp.view.class.php:407
+msgid "Unique Code:"
+msgstr "Codice univoco:"
+
+#: classes/bp.view.class.php:408
+msgid "Certified Email:"
+msgstr "PEC:"
+
+#: classes/bp.view.class.php:412
+msgid "Nessuna fattura richiesta."
+msgstr ""
+
+#: classes/bp.view.class.php:430
+msgid "Business name"
+msgstr "Azienda"
+
+#: classes/bp.view.class.php:432
+msgid "VAT No. / Fiscal Code"
+msgstr "P.IVA / Codice fiscale"
+
+#: classes/bp.view.class.php:435 classes/bp.view.class.php:437
+msgid "Not provided"
+msgstr "Non disponibile"
+
+#: classes/bp.view.class.php:440 classes/bp.view.class.php:458
+msgid "Receipt only"
+msgstr "Ricevuta"
+
+#: classes/bp.view.class.php:444
+msgid ""
+"You'll receive more info about your order status and shipping in few hours."
+msgstr ""
+"Riceverai aggiornamenti sullo stato e sulla spedizione del tuo ordine nelle "
+"prossime ore."
+
+#: classes/bp.view.class.php:458
+msgid "Invoice requested"
+msgstr "Fattura richiesta"
+
+#: classes/bp.view.class.php:486
+msgid "Summary"
+msgstr "Riassunto"
+
+#: classes/bp.view.class.php:498
+msgid "Your addresses"
+msgstr "Il tuo indirizzo"
+
+#: classes/bp.view.class.php:498
+msgid "My Address"
+msgstr "Il mio indirizzo"
+
+#: classes/bp.view.class.php:512
+msgid "Last order"
+msgstr "Ultimo ordine"
+
+#: classes/bp.view.class.php:548
+msgid "See all orders"
+msgstr "Vedi tutti"
+
+#: classes/bp.view.class.php:570
+msgid "Available"
+msgstr "Disponibile"
+
+#: classes/bp.view.class.php:573
+msgid "Available to order"
+msgstr "Su ordinazione"
+
+#: classes/bp.view.class.php:575
+msgid "Coming soon"
+msgstr "In arrivo"
+
+#: classes/bp.view.class.php:649
+msgid "Proceed Now"
+msgstr "Vai al checkout"
+
+#: classes/bp.view.class.php:675
+#, php-format
+msgid "Starting from %s"
+msgstr "A partire da %s"
+
+#: classes/bp.view.class.php:723
+#, php-format
+msgid "More info on %s"
+msgstr "Più info su %s"
+
+#: classes/bp.view.class.php:723
+msgid "More details"
+msgstr "Vai alla scheda"
+
+#: classes/bp.view.class.php:727
+msgid "Make your choice"
+msgstr "Seleziona"
+
+#: classes/bp.view.class.php:735
+msgid "Choose and buy"
+msgstr "Scegli & acquista"
+
+#: classes/bp.view.class.php:750
+msgid "Payment method"
+msgstr "Metodo di pagamento"
+
+#: classes/bp.view.class.php:803
+#, php-format
+msgid ""
+"Your personal data will be used to process your order, support your "
+"experience throughout this website, and for other purposes described in our "
+"%s."
+msgstr ""
+"Sono consapevole ed accetto che i miei dati verranno usati per creare un "
+"account, gestire il login, supportare l'esperienza utente su questo sito web "
+"e per gli altri scopi descritti nella %s in modo concorde alle mie "
+"preferenze."
+
+#: classes/bp.view.class.php:818
+msgid "Please accept our privacy policy to place your order!"
+msgstr "Devi accettare la nostra privacy policy per poter inviare l'ordine!"
+
+#: classes/bp.view.class.php:870
+msgid "VAT total"
+msgstr "Totale IVA"
+
+#: classes/bp.view.class.php:873
+msgid "Shipping total"
+msgstr "Totale spedizione"
+
+#: classes/bp.view.class.php:1243
+msgid "Search..."
+msgstr "Cerca..."
+
+#: classes/bp.view.class.php:1391
+msgid "Side to side row"
+msgstr "Riga side-to-side"
+
+#: classes/bp.view.class.php:1396
+msgid "Removes right and left padding when content is stretched."
+msgstr "Rimuove i padding laterali quando il contenuto è allargato."
+
+#: classes/bp.view.class.php:1486
+msgid "Read more"
+msgstr "Leggi tutto"
+
+#: classes/bp.view.class.php:1569
+msgid "Event"
+msgstr "Evento"
+
+#: functions.php:39
+msgid "Receipt"
+msgstr "Ricevuta"
+
+#: functions.php:40
+msgid "Invoice"
+msgstr "Fattura"
+
+#: parts/my-address-summary.php:6
+msgid "Full Name"
+msgstr "Nome e Cognome"
+
+#: parts/my-address-summary.php:17
+msgid "Email"
+msgstr "Email"
+
+#: parts/my-address-summary.php:27
+msgid "Billing Address"
+msgstr "Indirizzo (fatturazione)"
+
+#: parts/my-address-summary.php:35
+msgid "Billing Phone"
+msgstr "Telefono (fatturazione)"
+
+#: parts/my-address-summary.php:43
+msgid "Shipping Address"
+msgstr "Indirizzo (spedizione)"
+
+#: parts/my-address-summary.php:57
+msgid "Shipping Phone"
+msgstr "Telefono (spedizione)"
+
+#: parts/my-address-summary.php:73
+msgid "Invoice or receipt?"
+msgstr "Fattura o ricevuta?"
+
+#: parts/my-address-summary.php:94
+msgid "Invoice data"
+msgstr "Dati fattura"
+
+#: parts/my-address-summary.php:105
+msgid "Fiscal Code"
+msgstr "Codice fiscale"
+
+#: parts/my-address-summary.php:108
+msgid "Not set"
+msgstr "Non impostato"
+
+#: parts/my-address-summary.php:121 parts/my-address-summary.php:123
+msgid "Edit"
+msgstr "Modifica"

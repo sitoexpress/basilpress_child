@@ -1,16 +1,42 @@
-/* Typography - Overwrites GP settings to use em */
+/*
+* Typography - Overwrites GP settings to use em
+*/
 
-html body {
+html body,
+body input,
+body button,
+body textarea,
+body select {
   font-size: 16px;
 }
+
+/* Set here the Font Family for these elements */
+
+html body,
+body button,
+body input,
+body select,
+body textarea {
+
+}
+
+/* Set font sizes, weights, styles */
 
 body h1,
 body h2 {
 
 }
 
+body h1,
+body h2,
+body h3,
+body h3.widget-title {
+  font-weight: 700;
+  word-wrap: normal;
+}
+
 body h1 {
-  font-size: 2em;
+  font-size: 2.2em;
 }
 
 body h2 {
@@ -46,6 +72,10 @@ body p {
   margin-bottom: 1.15em;
 }
 
+body p:last-child {
+  margin-bottom: 0;
+}
+
 strong {
   font-weight: bold;
 }
@@ -71,6 +101,12 @@ ul li,
   padding-bottom: 0;
 }
 
+/* Tables */
+
+table, td, th {
+  border: none;
+}
+
 /* Input */
 
 input[type='url'] {
@@ -85,12 +121,14 @@ body input[type='text'],
 body input[type='tel'],
 body input[type='email'],
 body input[type="number"],
+body input[type="search"],
+body input[type="password"],
 body textarea {
   border: none;
-  background: #f2f2f2;
-  line-height: 1 !important;
+  background: var(--light);
+  line-height: 22px !important;
   transition: 0.5s ease-in-out;
-  padding: calc(1em - 7px) 1em;
+  padding: 14px 1.2em;
   position: relative;
 }
 
@@ -103,7 +141,7 @@ body input[type="tel"]:focus,
 body input[type="number"]:focus,
 body textarea:focus,
 body select:focus {
-  background: #f2f2f2;
+  background: var(--light);
 }
 
 body input[type="text"]:focus::before,
@@ -119,7 +157,7 @@ body select:focus::before {
   position: absolute;
   height: 100%;
   width: 1px;
-  background: #777;
+  background: var(--light);
 }
 
 body span.select2 {
@@ -127,11 +165,11 @@ body span.select2 {
 }
 
 body .select2-container--default .select2-selection--single {
-  background: #f2f2f2;
+  background: var(--light);
 }
 
 body .select2-container .selection .select2-selection--single {
-  padding: calc(1em - 7px) 1em;
+  padding: 14px 1.2em;
 }
 
 body textarea {
@@ -140,6 +178,8 @@ body textarea {
 
 /* Buttons */
 
+body .button-menu .menu li a,
+body .inline-menu.button-menu .menu li a,
 input[type="button"],
 input[type="reset"],
 input[type="submit"],
@@ -153,19 +193,7 @@ body #wpsl-search-btn,
 a.button,
 .woocommerce button.button,
 .woocommerce input.button,
-body .so-widget-sow-button .ow-button-base a.ow-button-hover {
-	font-size: 1em;
-	font-weight: 700;
-	padding: 0.75em 1em;
-	background: #404040;
-  border: none;
-  border-radius: 0;
-	color: #ffffff;
-	transition: 0.5s ease-in-out;
-	line-height: 1;
-  width: auto;
-}
-
+body .so-widget-sow-button .ow-button-base a.ow-button-hover,
 .woocommerce #respond input#submit.disabled,
 .woocommerce #respond input#submit:disabled,
 .woocommerce #respond input#submit:disabled[disabled],
@@ -177,15 +205,33 @@ body .so-widget-sow-button .ow-button-base a.ow-button-hover {
 .woocommerce button.button:disabled[disabled],
 .woocommerce input.button.disabled,
 .woocommerce input.button:disabled,
-.woocommerce input.button:disabled[disabled] {
-  padding: 0.75em 1em;
-  color: #FFF;
+.woocommerce input.button:disabled[disabled],
+body .button-menu ul li a,
+body #woofc-area .woofc-area-bot .woofc-action .woofc-action-inner > div a,
+.woocommerce-account .addresses .edit {
+  padding: 14px 1.2em;
+  color: var(--white);
+  font-size: 1em;
+  font-weight: 700;
+  background: var(--primary);
+  border: none;
+  border-radius: 0;
+  color: var(--white);
+  transition: 0.25s ease-in-out;
+  line-height: 22px;
+  width: auto;
+  box-shadow: none;
+  min-width: 125px;
+  cursor: pointer;
 }
 
 body .so-widget-sow-button .ow-button-base a.ow-button-hover span {
-  color: #ffffff;
+  color: var(--white);
+  transition: 0.25s ease-in-out;
 }
 
+body .button-menu .menu li a:hover,
+body .inline-menu.button-menu .menu li a:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover,
@@ -196,11 +242,17 @@ body #wpsl-search-btn:hover,
 .woocommerce button.button:hover,
 .woocommerce input.button:hover,
 a.button:hover,
-body .so-widget-sow-button .ow-button-base a.ow-button-hover:hover {
-	background: #dfdcde;
-	color: #404040;
+body .so-widget-sow-button .ow-button-base a.ow-button-hover:hover,
+body .button-menu ul li.is-active a,
+body .button-menu ul li a:hover,
+body #woofc-area .woofc-area-bot .woofc-action .woofc-action-inner > div a:hover,
+.woocommerce-account .addresses .edit:hover {
+	background-color: var(--secondary);
+	color: var(--white);
 }
 
+body .button-menu .menu li a:focus,
+body .inline-menu.button-menu .menu li a:focus,
 input[type="button"]:focus,
 input[type="reset"]:focus,
 input[type="submit"]:focus,
@@ -212,11 +264,25 @@ body #wpsl-search-btn:focus,
 .woocommerce input.button:focus,
 a.button:focus,
 body .so-widget-sow-button .ow-button-base a.ow-button-hover:focus {
-  background: #dfdcde;
+  background-color: var(--secondary);
 }
 
+body .button-menu .menu li a:focus,
+body .inline-menu.button-menu .menu li a:focus,
+input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus,
+body #wpsl-search-btn:focus,
+.buy-button-wrapper a.added_to_cart:focus,
+.woocommerce #respond input#submit:focus,
+.woocommerce a.button:focus,
+.woocommerce button.button:focus,
+.woocommerce input.button:focus,
+a.button:focus,
+body .so-widget-sow-button .ow-button-base a.ow-button-hover:focus,
+body .so-widget-sow-button .ow-button-base a.ow-button-hover:focus span,
 body .so-widget-sow-button .ow-button-base a.ow-button-hover:hover span {
-  color: #404040;
+  color: var(--white);
 }
 
 body .so-widget-sow-button .ow-button-base a [class^="sow-icon-"] {
@@ -224,9 +290,9 @@ body .so-widget-sow-button .ow-button-base a [class^="sow-icon-"] {
 	padding-left: 0.75em;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 810px) {
 	body .so-widget-sow-button .ow-button-base a {
-		width: 100%;
+
 	}
 }
 
@@ -268,15 +334,24 @@ body .so-widget-sow-button .ow-button-base a [class^="sow-icon-"] {
   background-color: transparent;
 }
 
+.bam-active .site-logo {
+
+}
+
 /* Scrolled Class to change header behaviour on scroll */
+
 
 .scrolled .header-nav-wrap,
 .as-scrolled .header-nav-wrap {
 
 }
 
-.scrolled .custom-logo,
-.as-scrolled .custom-logo {
+.header-image {
+
+}
+
+.scrolled .header-image,
+.as-scrolled .header-image {
 
 }
 
@@ -289,34 +364,49 @@ body .so-widget-sow-button .ow-button-base a [class^="sow-icon-"] {
 ## Main Menu Colors
 --------------------------------------------------------------*/
 
+/* Global Menu Background (when bam is active, otherwise change it within media query) */
+
+body.bam-active .main-nav-wrap {
+  background: var(--white);
+}
+
+/* Max Mega Menu */
+
+#mega-menu-wrap-primary .mega-menu-toggle .mega-toggle-block-0 .mega-toggle-animated-inner,
+#mega-menu-wrap-primary .mega-menu-toggle .mega-toggle-block-0 .mega-toggle-animated-inner::before,
+#mega-menu-wrap-primary .mega-menu-toggle .mega-toggle-block-0 .mega-toggle-animated-inner::after {
+  height: 2px;
+  background: var(--dark);
+}
+
 /* MENU ITEMS */
 
 body .main-navigation {
 	background-color: transparent;
 }
 
-body .main-navigation .navigation-search input[type="search"],
-body .main-navigation .navigation-search input[type="search"]:active {
-	color: #909090;
-	background-color: transparent;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
 body .main-navigation .navigation-search input[type="search"]:focus {
-	color: #909090;
-	background-color: transparent;
+
 }
 
 body .main-navigation .main-nav ul li a,
 body .main-navigation .menu-toggle {
-	color: #909090;
+
 }
 
 /* NAV SEARCH */
 
 body .navigation-search.nav-search-active {
-  background: #FFF;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
 }
 
 body.nav-search-enabled .main-navigation .menu-toggle {
@@ -333,13 +423,16 @@ body .main-navigation li.search-item {
 }
 
 body .navigation-search.nav-search-active {
-    background: #FFF;
-    top: -12px;
-    z-index: 1000;
+
+}
+
+body .navigation-search input[type="search"] {
+  opacity: 1;
 }
 
 body .mobile-bar-items {
     right: 60px;
+    top: 0;
     left: auto;
     z-index: 1002;
 }
@@ -349,11 +442,16 @@ body .main-navigation .mobile-bar-items a {
   padding: 0;
 }
 
+@media screen and (max-width: 810px) {
+  body .main-navigation .menu-bar-items {
+
+  }
+}
+
 /* SUB-NAVIGATION */
 
 body .main-navigation .main-nav ul ul li a {
-	background: #FFF;
-  color: #909090;
+
 }
 
 /* SUB-NAVIGATION HOVER */
@@ -361,22 +459,19 @@ body .main-navigation .main-nav ul ul li a {
 body .main-navigation .main-nav ul ul li:hover > a,
 body .main-navigation .main-nav ul ul li:focus > a,
 body .main-navigation .main-nav ul ul li.sfHover > a {
-	color: #909090;
-	background: #FFF;
+
 }
 
 /* CURRENT ITEMS AND HOVER*/
 
 body .main-navigation .main-nav ul li[class*="current-menu-"] > a {
-	color: #909090;
-	background-color: #FFF;
+
 }
 
 body .main-navigation .main-nav ul li[class*="current-menu-"]:hover > a,
 body .main-navigation .main-nav ul li[class*="current-menu-"]:focus > a,
 body .main-navigation .main-nav ul li[class*="current-menu-"].sfHover > a {
-	color: #909090;
-	background-color: #FFF;
+
 }
 
 /* MENU ITEM HOVER */
@@ -386,8 +481,7 @@ body .main-navigation .main-nav ul li:not([class*="current-menu-"]):focus > a,
 body .main-navigation .main-nav ul li.sfHover:not([class*="current-menu-"]) > a,
 body .main-navigation .menu-bar-item:hover > a,
 .main-navigation .menu-bar-item.sfHover > a {
-	color: #909090;
-	background-color: transparent;
+
 }
 
 body .main-navigation .main-nav ul:hover li[class*="current-menu-"] > a {
@@ -402,32 +496,38 @@ body .main-navigation .main-nav ul:hover li[class*="current-menu-"].sfHover > a 
 /* SUB-NAVIGATION CURRENT ITEMS */
 
 body .main-navigation .main-nav ul ul li[class*="current-menu-"] > a {
-	color: #909090;
-	background-color: #FFF;
+
 }
 
 body .main-navigation .main-nav ul ul li[class*="current-menu-"]:hover > a,
 body .main-navigation .main-nav ul ul li[class*="current-menu-"]:focus > a,
 body .main-navigation .main-nav ul ul li[class*="current-menu-"].sfHover > a {
-	color: #909090;
-	background-color: #FFF;
+
 }
 
 /* Mobile Nav Color */
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 810px) {
   /* Menu Main Background */
-  .main-nav-wrap {
-    background: rgba(0,0,0,0.8);
+  body .main-nav-wrap {
+    position: relative;
+    background: var(--white);
   }
   /* Submenu Wrap Background */
   .main-nav > ul li > ul {
-		background: transparent !important;
+
   }
   /* Submenu go back arrow color */
   .main-nav .sub-menu::after {
-    color: #909090;
+    color: var(--white);
   }
+
+  /* Font size */
+  body:not(.mega-menu-primary) .main-navigation .main-nav-wrap ul li a {
+    text-align: center;
+    font-size: 1.25rem;
+  }
+
 }
 
 /* Structural Padding */
@@ -437,31 +537,74 @@ body #page .site-content {
   padding-bottom: 0;
 }
 
-body .inside-navigation {
-  padding: 0 20px;
+body .inside-header {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  justify-content: space-between;
 }
 
-body .inside-header,
+body .header-widget {
+  padding: 0 40px;
+}
+
+body .inside-navigation {
+  padding: 0 0 0 10px !important;
+}
+
+body .site-header,
 body.one-container .site-content,
-body .footer-widgets-container {
+.site-content-header,
+body .footer-widgets-container,
+body .main-navigation .navigation-search input[type="search"],
+body .main-navigation .navigation-search input[type="search"]:active {
   padding-left: 40px;
   padding-right: 40px;
 }
 
-@media screen and (max-width: 768px) {
-  body .inside-header {
-    padding-top: 15px;
-    padding-bottom: 15px;
+/* SiteOrigin CSS FullWidth */
+
+body.siteorigin-panels-css-container .siteorigin-panels-stretch {
+  margin-left: -40px;
+  margin-right: -40px;
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+
+body.siteorigin-panels-css-container .siteorigin-panels-stretchs[data-stretch-type="full-stretched"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+@media screen and (max-width: 811px) {
+  body .site-header {
+    
   }
   body .inside-navigation,
+  body .header-widget,
   body .main-navigation .navigation-search input[type="search"],
   body .main-navigation .navigation-search input[type="search"]:active,
-  body .inside-header,
-  body.one-container #page .site-content,
+  body .site-header,
+  .site-content-header,
+  body.one-container .site-content,
   body .footer-widgets-container {
     padding-left: 15px;
     padding-right: 15px;
   }
+
+  /* SiteOrigin CSS FullWidth */
+
+  body.siteorigin-panels-css-container .siteorigin-panels-stretch {
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
+  body.siteorigin-panels-css-container .siteorigin-panels-stretch[data-stretch-type="full-stretched"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
 }
 
 /* Content */
@@ -489,7 +632,7 @@ body .footer-widgets-container {
 
 .page:not(.home) .site-main > article > .inside-article > .entry-header,
 .single .site-content > article > .entry-header {
-  padding-top: 2em;
+  padding-top: 0;
 }
 
 /*--------------------------------------------------------------
@@ -515,30 +658,30 @@ body .footer-widgets-container {
     border: none;
     padding: 5px 15px;
     margin: 5px;
-    background: #404040;
-    color: #FFF;
+    background: var(--dark);
+    color: var(--white);
     transition: 0.5s;
     border: 2px solid transparent;
 }
 
 .wp-pagenavi a:hover, .wp-pagenavi span:hover {
-	color: #404040;
-	background: #FFF;
-	border: 2px solid #404040;
+	color: var(--dark);
+	background: var(--white);
+	border: 2px solid var(--dark);
 }
 
 .wp-pagenavi span.current {
     font-weight: bold;
-    color: #404040;
-    background: #FFF;
-    border: 2px solid #404040;
+    color: var(--dark);
+    background: var(--white);
+    border: 2px solid var(--dark);
 }
 
 /* Footer */
 
 body .footer-widgets-container {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 body .footer-widgets,
@@ -580,7 +723,7 @@ body .footer-widgets .widget #menu-social-footer li {
   display: inline-block;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 810px) {
   body .site-footer {
 
   }

@@ -10,6 +10,7 @@ class bp_controller {
 	public function __construct() {
 
 		$this->options = get_option('generate_settings');
+		$this->view();
 
 		/* Load Textdomain */
 		add_action( 'after_setup_theme', array($this, 'bp_textdomain'));
@@ -22,18 +23,28 @@ class bp_controller {
 		// Actions, Admin
 		add_action( 'login_enqueue_scripts', array($this, 'bp_admin_ui'), 10 );
 
-		// Actions
+		// Customize BP Options
 		add_action('customize_register', array($this, 'bp_customizer' ));
+		add_action('generate_layout_meta_box_content', array($this, 'bp_metabox_options'));
+		add_action('generate_metabox_tabs', array($this, 'bp_metabox_tab'), 10, 1);
+		add_action('generate_layout_meta_box_save', array($this, 'bp_metabox_save'));
+
+		// Actions
 		add_action('wp_head', array($this, 'bp_print_options'));
-		add_action('init', array($this, 'bp_remove_image_size'), 100);
 		add_shortcode('CF7_LOGO', array($this, 'bp_cf7_logo'));
+		add_action('widgets_init', array($this, 'bp_widget_areas'));
+
+		// Remove unused image sizes
+		add_action('init', array($this, 'bp_remove_image_size'), 100);
+		add_filter('intermediate_image_sizes', array($this, 'bp_remove_intermediate_image_size'));
 
 		// Filters
 		add_filter( 'option_generate_settings', array($this, 'bp_content_single_post'), 999);
 
 		// Support for SiteOrigin Page Builder Layouts in /view/ folder
-		add_filter( 'siteorigin_panels_local_layouts_directories', array($this, 'bp_so_layouts_folder' ));
-		add_filter( 'siteorigin_panels_postloop_template_directory', array($this, 'bp_so_postloop_folder'));
+		add_filter('siteorigin_panels_local_layouts_directories', array($this, 'bp_so_layouts_folder' ));
+		add_filter('siteorigin_panels_postloop_template_directory', array($this, 'bp_so_postloop_folder'));
+		add_action('save_post', array($this, 'so_builder_check'), 10, 3);
 
 		/* Disable YOAST Annoying ads */
 		add_filter( 'wpseo_update_notice_content', '__return_null' );
@@ -41,9 +52,69 @@ class bp_controller {
 		/* Removes useless SVG stuff */
 		remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
 
-		// Methods & Properties
-		$this->view();
+		// WooCommerce
+		add_filter('woocommerce_checkout_get_value', array($this, 'partita_iva_per_fattura_elettronica_fix'), 20, 2);
+		add_filter('woocommerce_login_redirect', array($this, 'woocommerce_login_redirect'));
 
+	}
+
+	public function so_builder_check($id, $post, $update) {
+
+			$blocks = parse_blocks($post->post_content);
+			$has_builder_meta = get_post_meta($id, 'has_so_builder', true);
+			$has_builder_now = 0;
+
+			if(!empty($blocks)) {
+				foreach($blocks as $block) {
+					if($block['blockName'] == 'siteorigin-panels/layout-block' && !$has_builder_meta) {
+						$has_builder_now = 1;
+						update_post_meta($id, 'has_so_builder', 1);
+						break;
+					} else
+					if($block['blockName'] == 'siteorigin-panels/layout-block' && $has_builder_meta) {
+						$has_builder_now = 1;
+						break;
+					}
+				}
+			}
+
+			if($has_builder_now == 0 && $has_builder_meta) delete_post_meta($id, 'has_so_builder');
+	}
+
+	public function bp_metabox_tab($tabs) {
+		$tabs['basilpress'] = array(
+			'title' => esc_html__( 'Additional Settings', 'basilpress' ),
+			'target' => '#generate-layout-bp-metabox',
+			'class' => '',
+		);
+		return $tabs;
+	}
+
+	public function bp_metabox_options() { ?>
+		<div id="generate-layout-bp-metabox" style="display: none;">
+			<label class="generate-layout-metabox-section-title"><?php esc_html_e( 'Additional Settings', 'basilpress' ); ?></label>
+			<div class="generate_bp_metabox">
+				<label for="basil-no-content-margin" style="display:block;margin: 0 0 1em;" title="<?php esc_attr_e( 'Content Margin', 'basilpress' ); ?>">
+					<input type="checkbox" name="_basil-no-content-margin" id="basil-no-content-margin" value="true" <?php checked( get_post_meta(get_the_id(), '_basil-no-content-margin', true), 'true' ); ?>>
+					<?php esc_html_e( 'Disable content top margin', 'basilpress' ); ?>
+					<p class="page-builder-content" style="color:#666;font-size:11px;margin-top:5px;">
+						<?php esc_html_e( 'Useful when content should slip below the fixed header.', 'basilpress' ); ?>
+					</p>
+				</label>
+			</div>
+		</div>
+		<?php
+	}
+
+	public function bp_metabox_save($post_id) {
+		$margin_container_key   = '_basil-no-content-margin';
+		$margin_container_value = filter_input( INPUT_POST, $margin_container_key, FILTER_SANITIZE_STRING );
+
+		if ( $margin_container_value ) {
+			update_post_meta( $post_id, $margin_container_key, $margin_container_value );
+		} else {
+			delete_post_meta( $post_id, $margin_container_key );
+		}
 	}
 
 	public static function instance() {
@@ -97,34 +168,46 @@ class bp_controller {
 
 	public function bp_remove_image_size() {
 		remove_image_size("sow-carousel-default");
+		remove_image_size('2048x2048');
+    remove_image_size('1536x1536');
+	}
+
+	public function bp_remove_intermediate_image_size($sizes) {
+	  return array_diff($sizes, ['medium_large']);  // Medium Large (768 x 0)
 	}
 
 	public function bp_enqueue_admin() {
 		/* Enqueue custom.style.admin.css */
-		wp_enqueue_style('bp-css-custom-admin', get_stylesheet_directory_uri().'/assets/css/bp.custom.style.admin.css', '', BP_VER);
-		wp_enqueue_script('bp-js-custom-admin', get_stylesheet_directory_uri().'/assets/js/bp.custom.scripts.admin.js', '', BP_VER);
+		wp_enqueue_style('bp-css-custom-admin', get_stylesheet_directory_uri().'/assets/css/admin.css', '', BP_VER);
+		wp_enqueue_script('bp-js-custom-admin', get_stylesheet_directory_uri().'/assets/js/admin.js', '', BP_VER);
 	}
 
 	public function bp_enqueue() {
 
-		/* Remove useless emojis */
+		// Remove useless emojis
 		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
-		/* Enqueue custom.css */
-		wp_enqueue_style('bp-css-custom', get_stylesheet_directory_uri().'/style.custom.css', array('generate-child'), BP_VER);
-
-		/* Enqueue Local Scripts */
+		// Modernizr
 		wp_enqueue_script('bp-modernizr', get_stylesheet_directory_uri() . '/assets/js/modernizr.min.js');
-  	wp_enqueue_script('bp-js', get_stylesheet_directory_uri().'/assets/js/bp.scripts.js', array('jquery', 'sauce-script'), BP_VER);
-		wp_enqueue_script('bp-js-custom', get_stylesheet_directory_uri().'/assets/js/bp.custom.scripts.js', array('jquery', 'sauce-script'), BP_VER);
+
+		// Base scripts and styles
+		wp_enqueue_style('bp-wp', get_stylesheet_directory_uri().'/assets/css/wp.css', array('generate-child'), BP_VER);
+		wp_enqueue_script('bp-wp', get_stylesheet_directory_uri().'/assets/js/wp.js', array('jquery', 'sauce-script'), BP_VER);
+		$deps[] = 'bp-wp';
 
 		/* Enqueue WooCommerce Scripts/Styles  */
 		if(defined("WC_VERSION")) {
-			wp_enqueue_style('bp-wc-custom', get_stylesheet_directory_uri().'/assets/css/bp.woocommerce.css', '', BP_VER);
-			wp_enqueue_script('bp-js-wc', get_stylesheet_directory_uri().'/assets/js/bp.woocommerce.js', array('jquery', 'sauce-script', 'woocommerce'), BP_VER);
+			wp_enqueue_style('bp-wc', get_stylesheet_directory_uri().'/assets/css/wc.css', $deps, BP_VER);
+			wp_enqueue_script('bp-wc', get_stylesheet_directory_uri().'/assets/js/wc.js', array('jquery', 'sauce-script', 'woocommerce'), BP_VER);
+			$deps[] = 'bp-wc';
 		}
-  }
+
+		// Customizable scripts and styles
+		wp_enqueue_style('bp-custom', get_stylesheet_directory_uri().'/custom.css', $deps, BP_VER);
+		wp_enqueue_script('bp-custom', get_stylesheet_directory_uri().'/custom.js', $deps, BP_VER);
+
+  	}
 
     public function bp_dequeue_gp() {
 
@@ -146,6 +229,41 @@ class bp_controller {
     }
 
     public function bp_widget_areas() {
+
+			if(isset($this->options['central_logo']) && $this->options['central_logo']) {
+
+				register_sidebar( array(
+					'name'          => esc_html__( 'Logo Left', 'basilblank' ),
+					'id'            => 'logo-left-area',
+					'description'   => esc_html__( 'Appears on the left side of the logo. Widgets inlined.', 'basilblank' ),
+					'before_widget' => '<section id="%1$s" class="widget %2$s">',
+					'after_widget'  => '</section>',
+					'before_title'  => '<h2 class="widget-title">',
+					'after_title'   => '</h2>',
+				) );
+
+			}
+
+			register_sidebar( array(
+				'name'          => esc_html__( 'Logo Right', 'basilblank' ),
+				'id'            => 'logo-right-area',
+				'description'   => esc_html__( 'Appears on the right side of the logo. Widgets inlined.', 'basilblank' ),
+				'before_widget' => '<section id="%1$s" class="widget %2$s">',
+				'after_widget'  => '</section>',
+				'before_title'  => '<h2 class="widget-title">',
+				'after_title'   => '</h2>',
+			) );
+
+			register_sidebar( array(
+				'name'          => esc_html__( 'Logo Right - WooCommerce', 'basilblank' ),
+				'id'            => 'logo-right-area-wc',
+				'description'   => esc_html__( 'Appears on the right side of the logo on WC pages/archives (if set). Widgets inlined.', 'basilblank' ),
+				'before_widget' => '<section id="%1$s" class="widget %2$s">',
+				'after_widget'  => '</section>',
+				'before_title'  => '<h2 class="widget-title">',
+				'after_title'   => '</h2>',
+			) );
+
 			register_sidebar( array(
 				'name'          => esc_html__( 'Default Fixed Area', 'basilblank' ),
 				'id'            => 'fixed-bar',
@@ -155,38 +273,64 @@ class bp_controller {
 				'before_title'  => '<h2 class="widget-title">',
 				'after_title'   => '</h2>',
 			) );
+
+			register_sidebar(
+				array(
+					'id' => 'top-widget-area',
+					'name' => esc_html__( 'Top Widget Area - Blog', 'basilpress' ),
+					'description' => esc_html__( 'Appears below the page title in blog archives/posts', 'basilpress' ),
+					'before_widget' => '<div id="%1$s" class="widget %2$s">',
+					'after_widget' => '</div>',
+					'before_title' => '<h3 class="widget-title">',
+					'after_title' => '</h3>'
+				)
+			);
+
+			register_sidebar(
+				array(
+					'id' => 'woocommerce-top-widget-area',
+					'name' => esc_html__( 'Top Widget Area - WooCommerce', 'basilpress' ),
+					'description' => esc_html__( 'Appears below the page title in WooCommerce archives', 'basilpress' ),
+					'before_widget' => '<div id="%1$s" class="widget %2$s">',
+					'after_widget' => '</div>',
+					'before_title' => '<h3 class="widget-title">',
+					'after_title' => '</h3>'
+				)
+			);
+
     }
 
     public function bp_admin_ui() {
-			$backend_logo_obj = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' );
-			if($backend_logo_obj) {
-				$backend_logo = $backend_logo_obj[0];
-			} else {
-				$backend_logo = get_stylesheet_directory_uri().'/assets/img/backend_logo.png';
-			}
-		?>
-	    <style type="text/css">
-	    	body {
-	    		background-color: #f2f2f2 !important;
-	    	}
-	    	.wp-core-ui .button-primary {
-	    		background-color: #555 !important;
-	    		border-color: #555 !important;
-	    		box-shadow: none !important;
-	    		text-shadow: none !important;
-	    	}
-	    	.login #backtoblog a, .login #nav a {
-	    		color: #555 !important;
-	    	}
-	        #login h1 a, .login h1 a {
-	            background-image: url(<?php echo $backend_logo; ?>);
-	            padding-bottom: 0;
-				width: 225px;
-				background-size: contain;
-	        }
-	    </style>
-	<?php
-    }
+		$backend_logo_obj = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' );
+		if($backend_logo_obj) {
+			$backend_logo = $backend_logo_obj[0];
+		} else {
+			$backend_logo = get_stylesheet_directory_uri().'/assets/img/backend_logo.png';
+		}
+		$backend_bg_color = (defined('BP_WP_LOGIN_BG')) ? BP_WP_LOGIN_BG : '#f2f2f2';
+	?>
+	<style type="text/css">
+		body {
+			background-color: <?php echo $backend_bg_color; ?> !important;
+		}
+		.wp-core-ui .button-primary {
+			background-color: #555 !important;
+			border-color: #555 !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
+		}
+		.login #backtoblog a, .login #nav a {
+			color: #555 !important;
+		}
+		#login h1 a, .login h1 a {
+			background-image: url(<?php echo $backend_logo; ?>);
+			padding-bottom: 0;
+			width: 225px;
+			background-size: contain;
+		}
+	</style>
+<?php
+}
 
 	/**
 	 * Custom WPCF7 fields
@@ -227,6 +371,16 @@ class bp_controller {
 
 		$wp_customize->add_setting(
 			'generate_settings[page_header_global]',
+			array(
+				'default' => 0,
+				'type' => 'option',
+				'sanitize_callback' => 'generate_sanitize_choices',
+				'transport' => 'refresh',
+			)
+		);
+
+		$wp_customize->add_setting(
+			'generate_settings[central_logo]',
 			array(
 				'default' => 0,
 				'type' => 'option',
@@ -280,6 +434,21 @@ class bp_controller {
 			)
 		);
 
+		$wp_customize->add_control(
+			'generate_settings[central_logo]',
+			array(
+				'type' => 'select',
+				'label' => __( 'Central Logo (BP)', 'generatepress' ),
+				'section' => 'generate_layout_header',
+				'choices' => array(
+					0 => __( 'Disabled', 'generatepress' ),
+					1 => __( 'Enabled', 'generatepress' ),
+				),
+				'settings' => 'generate_settings[central_logo]',
+				'priority' => 15,
+			)
+		);
+
 	}
 
 	public function view() {
@@ -297,6 +466,67 @@ class bp_controller {
 			<noscript id="bp_debug"><?php echo print_r($this->options, true); ?></noscript>
 
 		<?php
+	}
+
+	/*
+	* Yith Catalog Mode Integration
+	*/
+
+	public function is_yith_catalog_enabled() {
+
+		if(!class_exists('YITH_WooCommerce_Catalog_Mode')) return false;
+		
+		$status = (get_option( 'ywctm_disable_shop' ) == 'yes') ? true : false;
+		
+		if($status == false) return false;
+		
+		// The realm of status = true
+		
+		if(is_user_logged_in()) {
+			
+			// Checking what to do for admin
+		
+			if((current_user_can( 'administrator' ) || current_user_can( 'manage_vendor_store' )) && 'no' === get_option( 'ywctm_admin_view' . $vendor_id )) {
+			$status = false;
+			}
+		
+		}
+		
+		return $status;
+	
+	}
+
+	/*
+	* WooCommerce Stuff Below
+	*/
+
+	// Redirect WooCommerce login to shop page
+
+	public function woocommerce_login_redirect( $redirect) {
+
+		$redirect_page_id = url_to_postid( $redirect );
+		$checkout_page_id = wc_get_page_id( 'checkout' );
+		
+		if( $redirect_page_id == $checkout_page_id) {
+			return $redirect;
+		}
+
+		return wc_get_page_permalink( 'shop' );
+
+	}
+
+	// WooCommerce Partita IVA per Fattura Elettronica fix for receipt / invoice
+
+	public function partita_iva_per_fattura_elettronica_fix($input, $key) {
+
+	  if($key == 'billing_fatt') {
+	    global $current_user;
+	    if(get_user_meta($current_user->ID, 'billing_fatt', true) == "Si") {
+	      $input = 1;
+	    }
+	  }
+
+	  return $input;
 	}
 
 	/**

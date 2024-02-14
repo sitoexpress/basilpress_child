@@ -1,0 +1,13 @@
+body .siteorigin-widget-form-notification,
+body .siteorigin-widget-teaser {
+  display: none !important;
+}
+
+@media screen and (min-width: 782px) {
+  body .interface-interface-skeleton__sidebar {
+    max-width: 335px;
+  }
+  body .interface-complementary-area {
+    width: auto;
+  }
+}
